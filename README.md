@@ -11,5 +11,5 @@
 
 ![](https://github.com/Tezika/ImageCache/blob/master/2048Snake/p3.png)
 
-##3.几句废话
-* 该游戏交予日方合作开发，因为一些ooxx的版权原因，现在已经完全被停工，所以现在已经完全开源。
+##3.几句废话<a name="link"/>
+* 该游戏之前交予日方合作开发([参赛得奖获奖传送门](http://game.cdcass.org.cn/nameList.html))，因为一些ooxx的版权原因，现在已经完全被停工，所以现在已经完全开源。
