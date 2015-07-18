@@ -10,29 +10,29 @@
 	<string>2048Snake</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>703A121A3CACED5BACFE648772DCDBF9F5D9508B</key>
-		<string>https://github.com/Tezika/2048Snake.git</string>
+		<key>3A6132CDC18ECAF7B0898FEAC33CCBA41F8888BE</key>
+		<string>github.com:Tezika/2048Snake.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>2048Snake/proj.ios_mac/2048Snake.xcodeproj</string>
+	<string>proj.ios_mac/2048Snake.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>703A121A3CACED5BACFE648772DCDBF9F5D9508B</key>
-		<string>../../../..</string>
+		<key>3A6132CDC18ECAF7B0898FEAC33CCBA41F8888BE</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Tezika/2048Snake.git</string>
+	<string>github.com:Tezika/2048Snake.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>703A121A3CACED5BACFE648772DCDBF9F5D9508B</string>
+	<string>3A6132CDC18ECAF7B0898FEAC33CCBA41F8888BE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>703A121A3CACED5BACFE648772DCDBF9F5D9508B</string>
+			<string>3A6132CDC18ECAF7B0898FEAC33CCBA41F8888BE</string>
 			<key>IDESourceControlWCCName</key>
 			<string>2048Snake</string>
 		</dict>
