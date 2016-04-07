@@ -93,6 +93,7 @@ void Food::changeFood(const std::string& val)
 void Food::removeFood()
 {
 	m_pos->setIsCreated(false);
+    m_pSprite->removeFromParent();
 	removeFromParent();
 	Foods::getFoods()->eraseObject(this);
 }
