@@ -111,6 +111,7 @@ void SnakeNode::changeNodeVal()
 	this->runAction(Sequence::create(CallFunc::create([this](){m_pSprite->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(m_val + ".png")); }), action_big, action_small, NULL));
 }
 void SnakeNode::removeNode(){
+    m_pSprite->removeFromParent();
 	removeFromParent();
 	Snake::getSnake()->eraseObject(this);
 }
@@ -172,7 +173,7 @@ void SnakeCtrl::onExit(){
 void SnakeCtrl::onTouchEndedCallBack(Touch* t, Event* e){
 	Vec2 delPos = t->getLocation() - t->getStartLocation();
 	if (abs(delPos.x) > abs(delPos.y)){
-		if (1== Snake::getSnake()->size())
+		if (1 == Snake::getSnake()->size())
 		{
 			delPos.x > 0 ? m_curDir = Direction::Right : m_curDir = Direction::Left;
 		}
