@@ -12,4 +12,4 @@
 ![](https://github.com/Tezika/ImageCache/blob/master/2048Snake/p3.png)
 
 ##3.最后说几句<a name="link"/>
-* 该游戏之前参与某比赛得奖后，交予日方合作开发([参赛得奖获奖传送门](http://game.cdcass.org.cn/nameList.html))，因为一些ooxx的版权原因，现在已经完全被停工，所以现在已经完全开源。
+* 该游戏之前参与某比赛得奖后，交予日方合作开发([参赛得奖获奖传送门](http://game.cdcass.org.cn/nameList.html))，因为一些ooxx的版权原因，现在已经完全被停工，因此现在开源出来，希望能够寻求合作伙伴继续开发:)。
