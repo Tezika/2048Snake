@@ -29,13 +29,13 @@ namespace SnakeSpace{
 		EventListenerTouchOneByOne* m_pEvenTListener;
 		LabelBMFont* m_pStartLabel;
 
-		void collision();
+        void collision();
+        void judgeCollision(SnakeSpace::SnakeNode* s, SnakeSpace::Food* f);
 		bool checkUpBouding();
 		bool checkDownBounding();
 		bool checkRightBounding();
 		bool checkLeftBounding();
 
-		virtual void judgeCollision(SnakeSpace::SnakeNode* s, SnakeSpace::Food* f);
 		virtual void checkBouding();
 		virtual void judgeVictory();
 		virtual void judgeOver();

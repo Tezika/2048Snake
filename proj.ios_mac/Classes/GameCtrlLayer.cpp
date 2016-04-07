@@ -94,7 +94,7 @@ void GameCtrlLayer::judgeCollision(SnakeNode* s, Food* f)
 			}
             //记录产生的几率
             int createRate = CHANCE_FOODCREATE_CLASSIC;
-            //判断当前的模式
+            //根据当前的模式改变产生的几率
             if(m_modeTag == TAG_CRAZY){
                 createRate  = TAG_CRAZY;
             }
