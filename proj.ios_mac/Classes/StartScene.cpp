@@ -37,6 +37,7 @@ bool StartScene::init()
 	this->setStartButton(TAG_HELP, Color3B(237, 224, 200), Color3B::BLACK,"Help", Vec2(0, 0));
 	this->setStartButton(TAG_EXIT, Color3B(242, 177, 121), Color3B::WHITE,"Exit", Vec2(visbleSize.width / 2, 0));
 
+    //how to implement the touch?
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(StartScene::onTouchBeganCallBack, this);
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener,this);

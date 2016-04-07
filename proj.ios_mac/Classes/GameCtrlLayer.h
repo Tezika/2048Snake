@@ -21,10 +21,11 @@ namespace SnakeSpace{
 	public:
 		bool onTouchBeganCallBack(Touch* t, Event* e);
 	protected:
+        int m_modeTag;  //保存当前的模式信息
 		Size m_visbleSize;
 		Point m_orginPos;
 		Sprite* m_pBgSprite;
-
+        
 		EventListenerTouchOneByOne* m_pEvenTListener;
 		LabelBMFont* m_pStartLabel;
 
@@ -79,7 +80,7 @@ namespace SnakeSpace{
 		LabelBMFont* m_pHealthLable;
 		LabelBMFont* m_pScoreLable;
 
-		virtual void judgeCollision(SnakeSpace::SnakeNode* s, SnakeSpace::Food* f);
+//		virtual void judgeCollision(SnakeSpace::SnakeNode* s, SnakeSpace::Food* f);
 	};
 
 

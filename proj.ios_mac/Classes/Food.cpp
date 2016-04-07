@@ -70,7 +70,7 @@ bool Food::initWithArgs(const std::string& fVal, const int tag, FoodCreatePos* c
 
 
 	this->scheduleUpdate();
-	Foods::getFoods()->pushBack(this);
+//	Foods::getFoods()->pushBack(this);
 
 	return true;
 }
@@ -93,6 +93,7 @@ void Food::changeFood(const std::string& val)
 void Food::removeFood()
 {
 	m_pos->setIsCreated(false);
+    //频繁的增减操作十分消耗性能
     m_pSprite->removeFromParent();
 	removeFromParent();
 	Foods::getFoods()->eraseObject(this);
@@ -184,6 +185,7 @@ void FoodCtrl::createFood(const std::string& fVal)
 				TIME_FODDAPEEARTIME_MIN+CCRANDOM_0_1()*(TIME_FOODAPEEARTIME_MAX-TIME_FODDAPEEARTIME_MIN)
 				);
 			this->addChild(f);
+            Foods::getFoods()->pushBack(f);
 		}
 	}
 }

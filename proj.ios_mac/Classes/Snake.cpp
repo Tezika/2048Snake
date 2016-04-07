@@ -43,7 +43,7 @@ bool SnakeNode::initWithArgs(const std::string& nodeVal, const int tag,const Vec
 	this->setTag(tag);
 	this->setContentSize(m_pSprite->getContentSize());
 	this->setPosition(pos);
-	Snake::getSnake()->insert(0,this);
+//	Snake::getSnake()->insert(0,this);
 
 
 
@@ -120,7 +120,11 @@ void SnakeNode::removeNode(){
 
 Snake::Snake(){}
 Vector<SnakeNode* >* Snake::m_pSnake = new Vector<SnakeNode* >();
-Snake::~Snake(){}
+Snake::~Snake(){
+    if (m_pSnake != NULL) {
+        delete m_pSnake;
+    }
+}
 void Snake::removeALLNodes(){
 	for (auto it = m_pSnake->begin(); it != m_pSnake->end(); it++)
 	{
@@ -213,6 +217,7 @@ void SnakeCtrl::update(float dt){
 
 void SnakeCtrl::snakeMove(float dt){
 	auto snake = Snake::getSnake();
+    //先移动头，然后把后一个节点的位置通过Lerp方法插值到前一个节点的位置
 	snake->front()->move(m_curDir, m_speed>SPEED_MAX?SPEED_MAX:m_speed+RATIO_SPEEDCHANGE*snake->size(), dt);
 	for (int index = 1; index < snake->size(); index++){
 		snake->at(index)->move(m_curDir, snake->at(index - 1)->getPosition(),m_nodeDis);
@@ -260,7 +265,9 @@ void SnakeCtrl::addSnakeNode(const std::string& nodeVal )
 		Snake::getSnake()->size()==0?Point(m_visbleOrginPos.x+m_visbleSize.width*0.5,m_visbleOrginPos.y+m_visbleSize.height*0.5):
 		Snake::getSnake()->front()->getPosition() + m_newNodeDisVec2[m_curDir]);
 	this->addChild(body);
-	this->setSnakeTags();
+    //添加节点
+    Snake::getSnake()->insert(0, body);
+    this->setSnakeTags();
 }
 void SnakeCtrl::deleteSnakeNode(SnakeNode* s)
 {

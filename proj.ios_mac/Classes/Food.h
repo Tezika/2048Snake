@@ -58,6 +58,7 @@ namespace SnakeSpace{
 		static Vector<Food *>* m_pFoods;
 	};
 
+    
 	class FoodCreatePos :public Node
 	{
 	public:

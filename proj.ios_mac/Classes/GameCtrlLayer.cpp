@@ -20,6 +20,9 @@ extern const int TAG_NUMFOOD;
 extern const int TAG_BOOMFOOD;
 extern const int TAG_BACK;
 
+extern const int TAG_CLASSIC;
+extern const int TAG_CRAZY;
+
 extern const int GAMELAYERTAGDELTA;
 
 extern const int NODE_MAXVAL;
@@ -41,6 +44,7 @@ m_pBgSprite(NULL),
 m_pStartLabel(NULL),
 m_pEvenTListener(NULL),
 m_orginPos(Director::getInstance()->getVisibleOrigin()),
+m_modeTag(TAG_CLASSIC),
 m_visbleSize(Director::getInstance()->getVisibleSize())
 {};
 GameCtrlLayer::~GameCtrlLayer(){};
@@ -70,6 +74,7 @@ void GameCtrlLayer::collision()
 
 void GameCtrlLayer::judgeCollision(SnakeNode* s, Food* f)
 {
+    //如果是头部发生碰撞
 	if (TAG_HEAD == s->getTag())
 	{
 		if (TAG_NUMFOOD == f->getTag())
@@ -87,24 +92,26 @@ void GameCtrlLayer::judgeCollision(SnakeNode* s, Food* f)
 			{
 				m_pSnakeCtrlLayer->addSnakeNode(f->getFoodVal());
 			}
+            //记录产生的几率
+            int createRate = CHANCE_FOODCREATE_CLASSIC;
+            //判断当前的模式
+            if(m_modeTag == TAG_CRAZY){
+                createRate  = TAG_CRAZY;
+            }
+            if (CCRANDOM_0_1() >1 - createRate)
+            {
+                m_pFoodCtrlLayer->createFood(m_pFoodCtrlLayer->getRandFoodVal());
+            }
 
-			//rand create new food
-			if (CCRANDOM_0_1() >1-CHANCE_FOODCREATE_CLASSIC)
-			{
-				m_pFoodCtrlLayer->createFood(m_pFoodCtrlLayer->getRandFoodVal());
-			}
 			SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISION);
 		}
-		else if (TAG_BOOMFOOD == f->getTag())
-		{
+        else if (TAG_BOOMFOOD == f->getTag()){
 			int subHp;
-			if (Snake::getSnake()->size() > 1)
-			{
+			if (Snake::getSnake()->size() > 1){
 				subHp = 1;
 				m_pSnakeCtrlLayer->deleteSnakeNode(s);
 			}
-			else
-			{
+			else{
 				subHp = HEALTH_PLAYER;
 			}
 			SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISIONFALSE);
@@ -113,6 +120,7 @@ void GameCtrlLayer::judgeCollision(SnakeNode* s, Food* f)
 		}
 		f->removeFood();
 	}
+    //如果身上的节点发生了碰撞
 	else if (TAG_BODY == s->getTag())
 	{
 		if (TAG_BOOMFOOD == f->getTag())
@@ -130,6 +138,7 @@ void GameCtrlLayer::judgeCollision(SnakeNode* s, Food* f)
 
 void GameCtrlLayer::judgeVictory()
 {
+    //用来处理 string -> int的转换
 	std::stringstream ss;
 	ss << Snake::getSnake()->front()->getNodeVal();
 	int headVal;
@@ -146,6 +155,7 @@ void GameCtrlLayer::judgeVictory()
 }
 bool GameCtrlLayer::onTouchBeganCallBack(Touch* t, Event* e)
 {
+    //第一次的点击开始
 	if (t != NULL)
 	{
 		if (NULL != m_pEvenTListener)
@@ -222,16 +232,19 @@ bool GameCtrlLayer::checkLeftBounding()
 void GameCtrlLayer::checkBouding()
 {
 	auto snake = Snake::getSnake();
+    //检查是否越界
 	if (checkUpBouding())
 	{
 		m_pSnakeCtrlLayer->setCurDir(Direction::Down);
 		SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISIONFALSE);
+        //如果不越界，则反转；
 		if (snake->size() != 1)
 		{
 			
 			m_pSnakeCtrlLayer->reverseSnakeNodes();
 			
 		}
+        //如果越界则结束游戏
 		else
 		{
 			UserDefault::getInstance()->setIntegerForKey("HEALTH", UserDefault::getInstance()->getIntegerForKey("HEALTH") - HEALTH_PLAYER);
@@ -289,7 +302,6 @@ void GameCtrlLayer::checkBouding()
 }
 
 
-
 GameCtrlLayer_Classic::GameCtrlLayer_Classic(){};
 GameCtrlLayer_Classic::~GameCtrlLayer_Classic(){};
 bool GameCtrlLayer_Classic::init()
@@ -336,6 +348,9 @@ void GameCtrlLayer_Classic::onEnter()
 {
 	Layer::onEnter();
 	scheduleUpdate();
+    
+    m_modeTag =  TAG_CLASSIC;
+    
 	UserDefault::getInstance()->setIntegerForKey("HEALTH", HEALTH_PLAYER);
 	UserDefault::getInstance()->setIntegerForKey("CURSCORE", 0);
 
@@ -419,12 +434,12 @@ void GameCtrlLayer_Creazy::onEnter()
 {
 	Layer::onEnter();
 	scheduleUpdate();
+    
+    m_modeTag = TAG_CRAZY;
+    
 	UserDefault::getInstance()->setIntegerForKey("HEALTH", HEALTH_PLAYER);
 	UserDefault::getInstance()->setIntegerForKey("CURSCORE", 0);
-
 	this->getSnakeCtrlLayer()->addSnakeNode("2");
-
-
 	m_pEvenTListener = EventListenerTouchOneByOne::create();
 	m_pEvenTListener->onTouchBegan = CC_CALLBACK_2(GameCtrlLayer::onTouchBeganCallBack, this);
 	m_pEvenTListener->setSwallowTouches(false);
@@ -443,63 +458,6 @@ void GameCtrlLayer_Creazy::update(float dt)
 	m_pHealthLable->setString(str);
 
 }
-void GameCtrlLayer_Creazy::judgeCollision(SnakeNode* s, Food* f)
-{
-	if (TAG_HEAD == s->getTag())
-	{
-		if (TAG_NUMFOOD == f->getTag())
-		{
-			if (s->getNodeVal() == f->getFoodVal())
-			{
-
-				s->runAction(Sequence::create(CallFunc::create([s](){s->changeNodeVal(); }),
-					CallFunc::create(CC_CALLBACK_0(SnakeCtrl::combineSnakeNode, this->getSnakeCtrlLayer()))
-					, NULL));
-				judgeVictory();
-			}
-			else
-			{
-				this->getSnakeCtrlLayer()->addSnakeNode(f->getFoodVal());
-			}
-			//rand create new food
-			if (CCRANDOM_0_1() >1 - CHANCE_FOODCREATE_CRAZY)
-			{
-				this->getFoodCtrlLayer()->createFood(this->getFoodCtrlLayer()->getRandFoodVal());
-			}
-			SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISION);
-		}
-		else if (TAG_BOOMFOOD == f->getTag())
-		{
-			int subHp;
-			if (Snake::getSnake()->size() > 1)
-			{
-				subHp = 1;
-				this->getSnakeCtrlLayer()->deleteSnakeNode(s);
-			}
-			else
-			{
-				subHp = HEALTH_PLAYER;
-			}
-			SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISIONFALSE);
-			UserDefault::getInstance()->setIntegerForKey("HEALTH", UserDefault::getInstance()->getIntegerForKey("HEALTH") - subHp);
-			this->judgeOver();
-		}
-		f->removeFood();
-	}
-	else if (TAG_BODY == s->getTag())
-	{
-		if (TAG_BOOMFOOD == f->getTag())
-		{
-			UserDefault::getInstance()->setIntegerForKey("HEALTH", UserDefault::getInstance()->getIntegerForKey("HEALTH") - 1);
-			SimpleAudioEngine::getInstance()->playEffect(EFFECT_COLLISIONFALSE);
-			this->judgeOver();
-			this->getSnakeCtrlLayer()->deleteSnakeNode(s);
-			f->removeFood();
-		}
-	}
-
-
-}
 
 void GameCtrlLayer_Creazy::onExit()
 {
@@ -509,7 +467,7 @@ void GameCtrlLayer_Creazy::onExit()
 		UserDefault::getInstance()->setIntegerForKey("BESTSCORE_CRAZY", UserDefault::getInstance()->getIntegerForKey("CURSCORE"));
 	}
      log("GameLayer quit");
-	Layer::onExit();
+	 Layer::onExit();
 
 }
 
